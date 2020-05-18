@@ -1,28 +1,28 @@
-t:
-  teacher:
+t: #测试服务器
+  teacher: #教师属性
     account: teacher003 #默认账号和密码
     password: 111111
-    list: #用于随机抽取
+    list: #用于随机
       - account: 18767126032
         password: 111111
       - account: robot0001
         password: 111111
-  jigou:
+  jigou: #机构
     account: tester
     password: 111111
     list:
       - account: tester
         password: 111111
-  admin:
+  admin: #管理员
     account: houhonglin
     password: 111111
     list:
       - account: houhonglin
         password: 111111
-  student:
+  student: #学生
     account: temp001
     password: 111111
-    format:
+    format: #格式化获取
       - name: account
         value: robot%04d
         start: 0
@@ -32,7 +32,7 @@ t:
     list:
       - account: robot0001
         password: 111111
-  phone:
+  phone: #手机号
     list:
       - 18000000001
       - 18000000002
