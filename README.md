@@ -1,3 +1,159 @@
+### 2020-05-18更新
+
+### 新增个人配置文件和便捷式初始化token功能
+
+新增文件夹config,在该目录下新增配置文件  
+config.yml文件为项目整体配置文件 
+其他yml文件为个人配置文件  
+例如yjq.yml为杨工专用的用户信息配置文件 
+
+
+通过配置文件的设置，可以在代码中方便的获取用户token  
+
+
+#### 获取默认账号
+```yaml
+t: #测试服务器
+  teacher: #教师属性
+    account: teacher003 #默认账号和密码
+    password: 111111 
+```
+```python
+teacher = Teacher.of("yjq").default()
+print(teacher.token)
+print(teacher.account) # teacher003
+print(teacher.password) # 111111
+```
+
+#### 获取随机账号
+```yaml
+t: #测试服务器
+  teacher: #教师属性
+    list: #用于随机
+      - account: 18767126032
+        password: 111111
+      - account: robot0001
+        password: 111111
+```
+```python
+teacher = Teacher.of("yjq").random()
+print(teacher.token)
+print(teacher.account) # 18767126032 or robot0001
+print(teacher.password) # 111111
+```
+
+#### 获取格式化账号
+```yaml
+t: #测试服务器
+  student: #学生
+    format: #格式化获取
+      - name: account
+        value: robot%04d
+        start: 0
+        end: 200
+      - name: password
+        value: 111111
+```
+```python
+student = Student.of("yjq").format()
+print(student.token)
+print(student.account) # robot0001 ~ robot0200
+print(student.password) # 111111
+```
+
+#### 读取yml文件的必须设置的属性
+
+yml文件中，以下属性必须存在
+- student 学生
+- teacher 教师
+- jigou 机构
+- admin 管理员
+
+这些属性，分别可以通过
+```python
+Student,of("yml文件名").default()
+Teacher,of("yml文件名").default()
+Jigou,of("yml文件名").default()
+Admin,of("yml文件名").default()
+```
+方式进行登录并获取token  
+也可以通过指定账户密码的方式  
+```python
+student - Student.login("robot0001", "111111")
+```
+
+#### 读取yml文件的其他属性方式
+
+yml文件除了设置以上必须的属性，也可以设置额外的属性
+例如：
+```yaml
+t:
+  phone: #手机号
+    list:
+      - 18000000001
+      - 18000000002
+      - 18000000003
+      - 18000000004
+      - 18000000005
+      - 18000000006
+    registered: 16600010000
+```
+获取属性的方式为
+```python
+config = ConfigReader.m2("yjq")
+phone_0 = config.phone.list._0 # 18000000001
+phone_1 = config.phone.list._1 # 18000000002
+registered_phone = config.phone.registered # 16600010000
+```
+
+### 新增 用例按指定顺序执行
+
+现在使用核心包`core`的`TestCase`执行测试，测试用例的执行顺序，安装代码的书写顺序来执行
+```python
+from core import TestCase
+
+class Test(TestCase):
+
+    def test_a(self):
+        print(1)
+
+    def test_b(self):
+        print(2)
+
+    def test_c(self):
+        print(3)
+
+"""
+执行顺序为
+1
+2
+3
+"""
+
+class Test2(TestCase):
+
+    def test_c(self):
+        print(3)
+
+    def test_a(self):
+        print(1)
+
+    def test_b(self):
+        print(2)
+"""
+执行顺序为
+3
+1
+2
+"""
+```
+> 使用了这个功能后，用例中以 test 开头的方法都不能被其他对象调用！
+
+
+
+## OLD
+
+---
 ##### 用例编写
 
 新建一个文件，文件名必须以test_开头  
