@@ -1,0 +1,112 @@
+t:
+  teacher:
+    account: teacher003 #默认账号和密码
+    password: 111111
+    list: #用于随机抽取
+      - account: 18767126032
+        password: 111111
+      - account: robot0001
+        password: 111111
+  jigou:
+    account: tester
+    password: 111111
+    list:
+      - account: tester
+        password: 111111
+  admin:
+    account: houhonglin
+    password: 111111
+    list:
+      - account: houhonglin
+        password: 111111
+  student:
+    account: temp001
+    password: 111111
+    format:
+      - name: account
+        value: robot%04d
+        start: 0
+        end: 200
+      - name: password
+        value: 111111
+    list:
+      - account: robot0001
+        password: 111111
+  phone:
+    list:
+      - 18000000001
+      - 18000000002
+      - 18000000003
+      - 18000000004
+      - 18000000005
+      - 18000000006
+    registered: 16600010000
+    unregistered: 16612312312
+    format:
+      value: 17%09d
+      start: 0
+      end: 9
+  lisi:
+    phone: 13457691177
+  merge:
+    phone: 16612312100
+    nickname: 合并专用
+    account: merge001
+    mizhuTime: 30
+    mizhuCoin: 0
+
+p:
+  teacher:
+    account: teacher004
+    password: 111111
+    list: #用于随机抽取
+      - account: 18767126032
+        password: 111111
+      - account: vta001
+        password: 111111
+  jigou:
+    account: tester
+    password: 111111
+    list:
+      - account: tester
+        password: 111111
+  admin:
+    account: yangjiaqi
+    password: cheng8111
+    list:
+      - account: yangjiaqi
+        password: cheng8111
+  phone:
+    registered: 16600010000
+    unregistered: 16612312312
+    list:
+      - 18000000001
+      - 18000000002
+      - 18000000003
+      - 18000000004
+      - 18000000005
+      - 18000000006
+    format:
+      value: 18%09d
+      start: 0
+      end: 9
+  lisi:
+    phone: 13457691177
+  student:
+    account: temp001
+    password: 111111
+    format:
+      value: yangjiaqitest%04d
+      start: 0
+      end: 200
+    list:
+      - account: yangjiaqitest0001
+        password: 111111
+  merge:
+    phone: 16612312100
+    nickname: 合并专用
+    account: merge001
+    mizhuTime: 30
+    mizhuCoin: 0
+
+

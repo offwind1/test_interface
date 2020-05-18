@@ -3,9 +3,11 @@ import sys
 import os
 import xml.etree.cElementTree as ET
 
-package_path = os.path.join(__file__, os.path.pardir)
-config_path = os.path.join(package_path, "config.yml")
+PACKAGE_PATH = os.path.join(__file__, os.path.pardir)
+MAIN_PATH = os.path.join(PACKAGE_PATH, os.path.pardir)
 
+CONFIG_PATH = os.path.join(MAIN_PATH, "config")
+CONFIG_FILE_PATH = os.path.join(CONFIG_PATH, "config.yml")
 
 def read_yaml_file(file_path):
     """
@@ -13,7 +15,7 @@ def read_yaml_file(file_path):
     :param file_path:
     :return:
     """
-    with open(os.path.join(package_path, file_path), 'r', encoding='utf-8') as f:
+    with open(os.path.join(PACKAGE_PATH, file_path), 'r', encoding='utf-8') as f:
         try:
             data = yaml.load(f)
             return data
@@ -25,23 +27,6 @@ def read_yaml_file(file_path):
 def save_yaml_file(file_path, data):
     with open(file_path, "w", encoding="utf-8") as  f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
-
-
-config = read_yaml_file(config_path)
-
-
-def get_config_attr(key):
-    return config.get(key, "")
-
-
-def get_server_host(key):
-    front = get_config_attr(key)
-    behind = get_config_attr("server")
-
-    if front.endswith("/"):
-        return front + behind + "/"
-
-    return front + "/" + behind + "/"
 
 
 def parse_xml(path):
@@ -56,6 +41,7 @@ def parse_xml(path):
 
 def add_element_method(Kclass, filename):
     """为类添加方法"""
+
     def request_object(api, name=None):
         def _object():
             obj = Kclass(api=api, name=name)
@@ -69,8 +55,6 @@ def add_element_method(Kclass, filename):
         name = dict["name"]
         setattr(Kclass, line.replace("/", "_"), request_object(line, name))
 
-    #
-    # with open(os.path.join(package_path, filename), encoding="utf-8") as f:
-    #     for line in f.readlines():
-    #         line = line.strip()
-    #         setattr(Kclass, line.replace("/", "_"), request_object(line))
+def read_config(key):
+    path = os.path.join(CONFIG_PATH, key)
+    return read_yaml_file(path)

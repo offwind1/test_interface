@@ -1,5 +1,5 @@
-from .common import *
 from .baseRequset import BaseRequest
+from .config import *
 
 
 class Mizhu(BaseRequest):

@@ -16,3 +16,6 @@ def run(case_path):
     with open(report_path, "wb") as f:
         h = HTMLTestRunner(f, verbosity=2, title="接口自动化")
         h.run(cases)
+
+
+
