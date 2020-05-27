@@ -7,6 +7,7 @@ import unittest
 from .setting import setting
 from . import log
 from .tag import Tag
+import sys
 
 CASE_TAG_FLAG = "__case_tag__"
 CASE_DATA_FLAG = "__case_data__"
@@ -214,8 +215,13 @@ def _feed_data(*args, **kwargs):
 
 class Meta(type):
     def __new__(cls, clsname, bases, attrs):
+        if "pytest" in sys.argv[0] and len(sys.argv[1].split("::")) > 2:
+            return super(Meta, cls).__new__(cls, clsname, bases, attrs)
+
         funcs, cases = Tool.filter_test_case(attrs)
+
         for test_case in cases.values():
+
             if not hasattr(test_case, CASE_TAG_FLAG):
                 setattr(test_case, CASE_TAG_FLAG, {Tag.ALL})  # 没有指定tag的用例，默认带有tag：ALL
 
@@ -252,6 +258,8 @@ class _TestCase(unittest.TestCase, metaclass=Meta):
 
 
 TestCaseBackup = unittest.TestCase
+
+
 unittest.TestCase = _TestCase
 TestCase = _TestCase
 
@@ -262,9 +270,11 @@ def stop_patch():
 
 def run_case(case_class, case_name: str):
     setting.execute_interval = 0.3
-    r = re.compile(case_name.replace("test_", "test(_\d+)?_"))
+    r = re.compile(case_name.replace("test_", r"test(_\d+)?_"))
     suite = unittest.TestSuite()
     for i in unittest.TestLoader().loadTestsFromTestCase(case_class):
         if r.match(getattr(i, "_testMethodName")):
             suite.addTest(i)
     unittest.TextTestRunner(verbosity=0).run(suite)
+
+

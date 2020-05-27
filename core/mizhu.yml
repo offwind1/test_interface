@@ -891,9 +891,9 @@
 - name: 提现申请审批
   url: web/usr/replyCash
 - name: 查询登陆用户信息和机构信息
-  url: web//usr/usrOrgInfo
+  url: web/usr/usrOrgInfo
 - name: 查询登录用户交易记录
-  url: web//usr/transList
+  url: web/usr/transList
 - name: 订单管理
   url: web/usr/consumListPage
 - name: 检验老师是否注册
@@ -988,5 +988,19 @@
   url: web/push/getPushById
 - name: 推送消息
   url: web/push/pushMessage
-- name: 云课PC版本更新接口
-  url: webhttp://www.mizholdings.com/yunkepc/Version.json
+- name: 班级删除学生
+  url: web/refund/teacherDelStu2
+- name: 获取咔嚓列表
+  url: web/item/getKachaListByUser
+- name: 删除课时
+  url: web/classroom/delete
+- name: 导出学生
+  url: api/classChart/exportByStudent
+- name: 微课设置班级
+  url: web/lesson/editTeacherStudent
+- name: 开课记录
+  url: web/classroom/getOnlineRecord
+- name: 直播记录r
+  url: web/qiniu/getHistoryRecords
+- name: 直播记录i
+  url: web/qiniu/getHistoryInfo

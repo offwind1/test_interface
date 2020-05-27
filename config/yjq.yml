@@ -20,7 +20,7 @@ t: #测试服务器
       - account: houhonglin
         password: 111111
   student: #学生
-    account: temp001
+    account: temp002
     password: 111111
     format: #格式化获取
       - name: account
@@ -43,17 +43,56 @@ t: #测试服务器
     registered: 16600010000
     unregistered: 16612312312
     format:
-      value: 17%09d
-      start: 0
-      end: 9
+      - name: phone
+        value: 17%09d
+        start: 0
+        end: 9
+  phonee_account:
+    account: 1349348420
+    password: 8cheng
+  email:
+    account: 186201712028@hxlsjzfx
+    password: 8cheng
   lisi:
     phone: 13457691177
   merge:
     phone: 16612312100
+    password: 111111
     nickname: 合并专用
     account: merge001
     mizhuTime: 30
     mizhuCoin: 0
+  temp:
+    account: yk28920826
+    password: 8cheng
+    phone: 18700000202
+  teacher_execl:
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师001
+      任教学科: 语文
+      教师手机号: "18000000001"
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师002
+      任教学科: 语文
+      教师手机号: "18000000002"
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师003
+      任教学科: 语文
+      教师手机号: "18000000003"
+  student_execl:
+    - 姓名: "学生001"
+      账号: "baby001"
+      密码: "111111"
+    - 姓名: "学生002"
+      账号: "baby002"
+      密码: "111111"
+    - 姓名: "学生003"
+      账号: "baby003"
+      密码: "111111"
+
 
 p:
   teacher:
@@ -90,6 +129,12 @@ p:
       value: 18%09d
       start: 0
       end: 9
+  email:
+    account: 2301031055201@dsszxx
+    password: 8cheng
+  phonee_account:
+    account: 1489926104
+    password: 111111
   lisi:
     phone: 13457691177
   student:
@@ -104,9 +149,12 @@ p:
         password: 111111
   merge:
     phone: 16612312100
+    password: 111111
     nickname: 合并专用
     account: merge001
     mizhuTime: 30
     mizhuCoin: 0
-
-
+  temp:
+    account: yk99111
+    password: 8cheng
+    phone: 18767126032

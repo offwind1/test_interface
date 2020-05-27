@@ -9,6 +9,7 @@ def run(case_path):
     report_path = path + "/report"
     if not os.path.exists(report_path):
         os.mkdir(report_path)
+
     cases = defaultTestLoader.discover(case_path, pattern="test_*.py")
     time_str = time.strftime("%Y%m%d_%H%M%S", time.localtime())  # 生成一个年月日时分秒的时间戳
     report_path = path + "/report/自动化测试报告" + time_str + ".html"

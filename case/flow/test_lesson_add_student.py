@@ -17,7 +17,7 @@ class AddStudentTest(TestCase):
             "token": self.jigou.token
         }
         res = Mizhu.web_usr_orgDelTeacher().post(data)
-        assert res.json()["code"] == "200"
+        # assert res.json()["code"] == "200"
 
     def test_add_student(self):
         """添加学生"""
@@ -48,3 +48,8 @@ class AddStudentTest(TestCase):
         assert json["data"]["list"][0]["account"] == self.student.account
         assert json["data"]["list"][0]["userId"] == str(self.student.userId)
         assert json["data"]["list"][0]["nickname"] == self.student.nickname
+
+    def test_student_orgId(self):
+        """学生加入机构后，个人信息中有机构id"""
+        self.student = Student.of("yjq").default(refresh=True)
+        assert self.jigou.orgId in [x["orgId"] for x in self.student.data["data"]["orgRelList"]]

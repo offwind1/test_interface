@@ -1,4 +1,335 @@
-### 2020-05-18更新
+# 2020-5-27更新
+
+## 批量添加教师  
+```python
+from core import TeacherExecl, Kaca
+
+#创建教师excel模板
+teacher_execl = TeacherExecl()
+# 单行添加：     "班级名称", "年级", "教师姓名", "任教学科", "教师手机号"
+teacher_execl.add("2年1班", "七年级", "王老师", "数学", "17727272727")
+teacher_execl.add("2年1班", "七年级", "赵老师", "语文", "17711111111")
+# 保存文件到本地
+teacher_execl.save("教师模板.xls")
+
+# 批量添加教师
+Kaca.school_class_manage_creat_excel().post({
+    "schoolId": "8628",
+    "year": "2020",
+}, files={"excelFile":teacher_execl.byte()})
+
+```
+
+#### 使用默认数据创建excel
+
+```yaml
+# 按照模板添加，需设置yml文件如下
+# yjq.yml
+  teacher_execl:
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师001
+      任教学科: 语文
+      教师手机号: "18000000001"
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师002
+      任教学科: 语文
+      教师手机号: "18000000002"
+    - 班级名称: ""
+      年级: ""
+      教师姓名: 教师003
+      任教学科: 语文
+      教师手机号: "18000000003"
+```
+```python
+from core import TeacherExecl, Kaca
+
+# 创建教师excel模板
+teacher_execl = TeacherExecl()
+# 使用默认的版本添加
+teacher_execl.add_teacher_default("yjq")
+# 批量添加教师
+Kaca.school_class_manage_creat_excel().post({
+    "schoolId": "8628",
+    "year": "2020",
+}, files={"excelFile":teacher_execl.byte()})
+
+```
+
+## 批量导入学生
+```python
+from core import *
+# 创建学生excel
+student_execl = StudentExecl()
+# 单行添加学生: "姓名", "账号", "密码", "手机号", "学校", "年级", "班级", "级数"
+student_execl.add("学生001", "student001", "111111", "19200000000")
+student_execl.add("学生002", "student002", "111111") # 省略的部分默认为空
+
+#批量导入学生
+jigou = Jigou.of("yjq").default() # 机构用户登录
+cla = Clazz.add(Jigou) # 新建班级
+
+res = Mizhu.web_lesson_uploadFile().post({ #上传学生模板
+    "token": jigou.token
+}, files={"upfile":student_execl.byte()})
+json = res.json()
+assertPass(json)
+fileName = json["data"]["fileName"] # 获取filename
+
+res = Mizhu.web_lesson_joinClassByFile().post({ # 根据导入文件加入班级
+    "token": jigou.token,
+    "stuId": cla.classId,
+    "fileName": fileName
+})
+assertPass(res)
+```
+
+#### 使用默认数据创建excel
+```yaml
+# yjq.yml
+  student_execl:
+    - 姓名: "学生001"
+      账号: "baby001"
+      密码: "111111"
+    - 姓名: "学生002"
+      账号: "baby002"
+      密码: "111111"
+    - 姓名: "学生003"
+      账号: "baby003"
+      密码: "111111"
+```
+```python
+from core import *
+# 创建学生excel
+student_execl = StudentExecl()
+# 使用默认数据创建excel
+student_execl.add_student_default("yjq")
+student_execl.save()
+```
+
+#### 使用模板数据创建学生
+```python
+from core import *
+# 创建学生excel
+student_execl = StudentExecl()
+# 使用默认数据创建excel
+# 创建200个学生，姓名为 名称0001~名称0200， 账号为 account0001~account0200
+student_execl.add_student_by_format("名称%04d", "account%04d", 200)
+student_execl.save()
+```
+## 导入课程
+
+### 带课时模板导入
+```python
+from core import *
+
+# 创建excel对象
+lesson_execl = LessonHasClassExecl()
+# 单行添加数据 "课程名称", "课节名称", "开始日期", "开始时间", "结束时间", "学科", "老师", "手机", "年级", "班级"
+lesson_execl.add('批量新增1-1','课时1','2020-02-01','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
+# 快捷添加数据
+# 参数为 手机号 和 课时数量
+# 会自动生成课程名称，和课节名称。 开始时间为当前时间，结束时间为1小时后，学科默认 数学， 老师名称为默认（注册过的教师这一项不生效） 
+# 手机号需要提供， 年级默认 班级默认
+lesson_execl.add_lesson_fast("18717171717", 3)
+# 结果如下
+# '批量新增ajssjw','课时1','2020-05-27','12:00','13:00','数学','老师','18717171717','高三','三5班'
+# '批量新增ajssjw','课时2','2020-05-28','12:00','13:00','数学','老师','18717171717','高三','三5班'
+# '批量新增ajssjw','课时3','2020-05-29','12:00','13:00','数学','老师','18717171717','高三','三5班'
+
+
+# 导入课程
+jigou = Jigou.of("yjq").default()
+Mizhu.web_lesson_lessonUpfile().post({
+    "token":jigou.token,
+    "createUserId":jigou.userId,
+}, files={"upfile":lesson_execl.byte()})
+```
+
+### 不带课时导入
+```python
+from core import *
+
+# 创建excel对象
+lesson_execl = LessonNoClassExecl()
+# 单行添加数据 '课程名称', '开始日期', '结束日期', '开始时间', '结束时间', '学科', '老师', '手机', '年级', '班级'
+lesson_execl.add('批量新增1','2020-02-01','2020-02-10','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
+# 快捷添加数据
+# 参数为 手机号 和 课时数量
+# 会自动生成课程名称，和课节名称。 开始时间为当前时间，结束时间为1小时后，学科默认 数学， 老师名称为默认（注册过的教师这一项不生效） 
+# 手机号需要提供， 年级默认 班级默认
+lesson_execl.add_lesson_fast("18722222222", 4)
+# 结果如下
+# '批量新增asdasd','2020-05-27','2020-05-30','12:00','13:00','数学','老师','18722222222','高三','三5班'
+
+# 导入课程
+jigou = Jigou.of("yjq").default()
+Mizhu.web_lesson_lessonUpfile().post({
+    "token":jigou.token,
+    "createUserId":jigou.userId,
+}, files={"upfile":lesson_execl.byte()})
+```
+
+## 上传课件
+
+### 课时安排上传课件
+```python
+from core import *
+# 机构用户登录
+jigou = Jigou.of("yjq").default()
+# 随机获取一个资源信息
+cours = Courseware.random()
+# 创建课程
+lesson = Lesson.add(jigou)
+# 上传课件
+res = Mizhu.api_course_uploadFile2().post({
+    "sourceUrl": cours.source_url,
+    "faceImage": cours.face_img,
+    "lessonId": lesson.lessonId,
+    "classroomId": lesson[0].classroomId,
+    "coursewareType": cours.courseware_type,
+    "coursewareName": cours.courseware_name,
+    "token": jigou.token,
+})
+assertPass(res)
+```
+
+### 教学资源管理上传
+```python
+from core import *
+# 机构用户登录
+jigou = Jigou.of("yjq").default()
+# 获取gif类型的资源
+cours = Courseware.gif()
+# 上传
+Mizhu.api_course_uploadFile().post({
+    "coursewareType": cours.courseware_type,
+    "sourceUrl": cours.source_url,
+    "coursewareName": cours.courseware_name,
+    "faceImg": cours.face_img,
+    "token": jigou.token,
+})
+
+# 上传ppt
+cours_ppt =  Courseware.ppt()
+Mizhu.api_course_uploadPpt().post({
+    "coursewareType": cours_ppt.courseware_type,
+    "sourceUrl": cours_ppt.source_url,
+    "coursewareName": cours_ppt.courseware_name,
+    "faceImg": cours_ppt.face_img,
+    "token": jigou.token
+})
+
+```
+
+
+## 课程和课时 封装 
+
+```python
+from core import *
+
+jigou = Jigou.of("yjq").default()
+teacher = Teacher.of("yjq").default()
+# 新建课程
+# 课程名称默认，课程时间当天，默认一节课
+lesson = Lesson.add(jigou)
+lesson = Lesson.add(jigou, lessonName="课程名称", 
+                            classroomCount=4,
+                            startTime="2020-05-27 12:00:00",
+                            lessonTerm=1,
+                            lessonTypeId=1,
+                            lessonTag="",
+                            lessRemark="",
+                            ...)
+
+# 编辑课程
+lesson.edit(lessonName="修改名称", classroomCount=5, ...)
+# 添加班级
+lesson.add_class("844") #班级id
+# 添加学生
+lesson.add_student(
+    "7289997722882", # 学生userId
+    "844"   # 班级id,可不填 
+)
+# 批量设置课时主讲
+lesson.set_teacher(teacher.userId) #教师id
+# 批量设置助教老师
+lesson.set_support_teacher(teacher.userId)# 助教老师id，多个使用逗号分开
+
+# 获取课程id
+lesson.lessonId
+# 获取课程名称
+lesson.lessonName
+
+
+# 获取课节
+classroom = lesson[0] # 获取课时1
+classroom = lesson[1] # 获取课时2
+
+# 编辑课件
+classroom.edit(classroomName="课时名称", startTime="2020-05-27 12:00:00")
+
+# 设置教师
+classroom.set_teacher(teacher.userId)
+# 设置助教
+classroom.set_support_teacher(teacher.userId)
+```
+
+
+## 班级封装
+```python
+from core import *
+jigou = Jigou.of("yjq").default()
+teacher = Teacher.of("yjq").default()
+
+# 新建班级
+# 班级名称随机, 默认年级1年级
+cls = Clazz.add(jigou)
+# 新建班级，并且指定数据
+cls = Clazz.add(jigou, gradeId="7", className="班级名称")
+
+# 通过班级名称，查找班级
+cls = Clazz.findClass(jigou, "机器人专用")
+
+# 通过 id 添加学生
+cls.add_student("123123,123123") # userId 可以躲过，使用逗号分开
+
+# 通过 execl 添加学生
+student_execl = StudentExecl()
+student_execl.add_student_default("yjq")
+cls.add_student_by_execl(student_execl)
+
+# 获取id
+cls.classId
+# 获取学生数量
+cls.studentCount
+#获取班级名称
+cls.className
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 2020-05-18更新
 
 ### 新增个人配置文件和便捷式初始化token功能
 
@@ -79,7 +410,7 @@ Admin,of("yml文件名").default()
 方式进行登录并获取token  
 也可以通过指定账户密码的方式  
 ```python
-student - Student.login("robot0001", "111111")
+student - Student.of("yjq").login("robot0001", "111111")
 ```
 
 #### 读取yml文件的其他属性方式

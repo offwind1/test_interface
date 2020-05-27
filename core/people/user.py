@@ -1,4 +1,6 @@
-from core import *
+from ..configReader import ConfigReader
+from ..util import *
+from ..M2 import *
 
 
 class User:
@@ -17,6 +19,15 @@ class User:
     def of(cls, config_name):
         config = ConfigReader.m2(config_name)
         return cls(config, config_name.split(".")[0])
+
+    def __getattr__(self, item):
+        user_data = getattr(self._congig, item)
+
+        def inner():
+            self.data = self._login(user_data.account, user_data.password)
+            return self
+
+        return inner
 
     def default(self, refresh=False):
         """
@@ -59,80 +70,3 @@ class User:
 
     def __str__(self):
         return "<{}: (account:{})>".format(self.__class__.__name__, self.account)
-
-
-class Student(User):
-
-    def dynamic_login(self, account, password):
-        data = {
-            "account": account,
-            "password": password,
-            "longitude": "",
-            "latitude": "",
-            "phone": "",
-            "verifycode": "",
-            "machine": "",
-        }
-        res = Mizhu.api_mobile_login().post(data)
-        json = res.json()
-        assert json["result"] == 0
-        return json
-
-    @property
-    def token(self):
-        return self.data["data"]["token"]
-
-    @property
-    def userId(self):
-        return self.data['data']["userId"]
-
-    @property
-    def nickname(self):
-        return self.data['data']['nickname']
-
-
-class Teacher(User):
-    def dynamic_login(self, account, password):
-        data = {
-            "userName": account,
-            "password": password
-        }
-        res = Mizhu.web_usr_login().post(data=data)
-        json = res.json()
-        assert json["code"] == "200"
-        return json
-
-    @property
-    def token(self):
-        return self.data["token"]
-
-    @property
-    def userId(self):
-        return self.data['data']["userId"]
-
-
-class Jigou(Teacher):
-
-    @property
-    def orgId(self):
-        return self.data["data"]["orgId"]
-
-    @property
-    def orgName(self):
-        return self.data['data']['orgName']
-
-
-class Admin(User):
-    def dynamic_login(self, account, password):
-        data = {
-            "userName": account,
-            "password": password
-        }
-        res = Manage.web_usr_manageLogin().post(data=data)
-        json = res.json()
-        assert json["code"] == "200"
-        return json
-
-    @property
-    def token(self):
-        return self.data["token"]

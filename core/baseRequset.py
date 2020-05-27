@@ -54,6 +54,14 @@ class BaseRequest():
     def __call__(self, *args, **kwargs):
         return self
 
+    def _secure(self, data, kwargs):
+        if self.api.startswith("api"):
+            print(kwargs)
+            content = ""
+            for key, value in data.items():
+                content += key
+                content += value
+
     def post(self, data=None, json=None, **kwargs):
         print_log(POST_LOG,
                   self.url or "",
@@ -61,18 +69,19 @@ class BaseRequest():
                   data or "无",
                   json or "无")
         has_headers_print(kwargs)
+        # self._secure(data, kwargs)
 
         res = requests.post(url=self.url, data=data, json=json, **kwargs)
         print_response(res)
         return res
 
-    def get(self, url, params=None, **kwargs):
+    def get(self, params=None, **kwargs):
         print_log(GET_LOG,
                   self.url or "",
                   self.name or "未定义",
                   params or "无")
         has_headers_print(kwargs)
-        res = requests.get(url, params=params, **kwargs)
+        res = requests.get(self.url, params=params, **kwargs)
         print_response(res)
 
         return res

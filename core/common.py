@@ -7,7 +7,9 @@ PACKAGE_PATH = os.path.join(__file__, os.path.pardir)
 MAIN_PATH = os.path.join(PACKAGE_PATH, os.path.pardir)
 
 CONFIG_PATH = os.path.join(MAIN_PATH, "config")
+RESOURCES_PATH = os.path.join(MAIN_PATH, "resources")
 CONFIG_FILE_PATH = os.path.join(CONFIG_PATH, "config.yml")
+
 
 def read_yaml_file(file_path):
     """
@@ -17,7 +19,7 @@ def read_yaml_file(file_path):
     """
     with open(os.path.join(PACKAGE_PATH, file_path), 'r', encoding='utf-8') as f:
         try:
-            data = yaml.load(f)
+            data = yaml.load(f, Loader=yaml.FullLoader)
             return data
         except:
             raise Exception(file_path, " 文件中的内容yaml格式不正确")
@@ -54,6 +56,7 @@ def add_element_method(Kclass, filename):
         line = dict["url"]
         name = dict["name"]
         setattr(Kclass, line.replace("/", "_"), request_object(line, name))
+
 
 def read_config(key):
     path = os.path.join(CONFIG_PATH, key)

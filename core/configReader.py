@@ -42,9 +42,14 @@ class ConfigReader:
             return self._random()
         elif item == "format":
             return self._format()
+        elif "%" in item:
+            return self.__getattribute__(item)
 
         _ = self._get_item(item)
         return self._get_inner_(_, item)
+
+    def __iter__(self):
+        return iter(self._data)
 
     def _random(self):
         list = self._get_item("list")
