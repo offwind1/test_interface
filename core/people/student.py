@@ -15,7 +15,7 @@ class Student(User):
         }
         res = Mizhu.api_mobile_login().post(data)
         json = res.json()
-        assert json["result"] == 0
+        assertPass(json)
         return json
 
     @property
@@ -44,6 +44,6 @@ class Student(User):
         }
 
         res = Mizhu.api_mobile_userRegister().post(data)
-        assert res.json()["result"] == 0
+        assertPass(res)
         self.data = self.dynamic_login(account, password)
         return self

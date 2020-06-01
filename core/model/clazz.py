@@ -20,7 +20,7 @@ class Clazz(DataAgent):
 
         res = Mizhu.web_grade_addClass().post(data)
         json_ = res.json()
-        assert json_["code"] == "200"
+        assertPass(json_)
         return Clazz(json_["data"]["classId"], usr)
 
     @staticmethod
@@ -55,7 +55,6 @@ class Clazz(DataAgent):
                 return line
 
         raise Exception("未找到班级")
-        # assert self.data
 
     @property
     def className(self):

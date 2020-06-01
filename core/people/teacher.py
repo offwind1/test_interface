@@ -9,7 +9,7 @@ class Teacher(User):
         }
         res = Mizhu.web_usr_login().post(data=data)
         json = res.json()
-        assert json["code"] == "200"
+        assertPass(json)
         return json
 
     @property

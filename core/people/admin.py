@@ -9,7 +9,7 @@ class Admin(User):
         }
         res = Manage.web_usr_manageLogin().post(data=data)
         json = res.json()
-        assert json["code"] == "200"
+        assertPass(json)
         return json
 
     @property

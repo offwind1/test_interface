@@ -95,8 +95,7 @@ class Lesson(DataAgent):
         }
         res = Mizhu.web_lesson_getLessonInfoById().post(data)
         json_ = res.json()
-
-        assert json_["code"] == "200"
+        assertPass(json_)
         return json_["data"]
 
     def __getitem__(self, item):
