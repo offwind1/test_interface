@@ -64,6 +64,9 @@ class BaseRequest():
         return self
 
     def _secure(self, data, kwargs):
+        if not self.api.startswith("api"):
+            return
+
         value = get_sign(data)
         if "headers" not in kwargs:
             kwargs["headers"] = {}

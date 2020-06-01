@@ -21,6 +21,7 @@ class ConfigReader:
     @classmethod
     def m2(cls, key):
         from .config import SERVER
+
         key = key if key.endswith("yml") else key + ".yml"
         _ = key.split(".")[0]
         if cls._readers.get(_, None) is None:

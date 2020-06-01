@@ -1,8 +1,18 @@
 #系统的基础路径
 server: t
-use_server: 1
-mizhu: https://api.mizholdings.com/
-#mizhu: http://192.168.3.151:8081/
-mizhumanage: https://api.huijudi.cn/
-#mizhumanage: http://192.168.3.151:8081/
-kaca: https://develop.kacha.xin/
+mizhu:
+  url: https://api.mizholdings.com/
+  use_server: 1
+mizhumanage:
+  url: https://api.huijudi.cn/
+  use_server: 1
+kaca:
+  url: https://develop.kacha.xin/
+  use_server: 0
+
+#mizhu:
+#  url: http://192.168.3.151:8081/
+#  use_server: 0
+#mizhumanage:
+#  url: http://192.168.3.151:8081/
+#  use_server: 0

@@ -79,7 +79,7 @@ class Lesson(DataAgent):
             "pubType": "",
         })
         json_ = res.json()
-        assert json_["code"] == "200"
+        assertPass(json_)
 
         return Lesson(random.choice([x["lessonId"] for x in json_["data"]["list"]]), usr=usr)
 
