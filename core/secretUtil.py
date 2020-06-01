@@ -36,6 +36,7 @@ def get_sign_conntent(data):
     return content
 
 
+
 def get_sign(data):
     content = get_sign_conntent(data)
     md_content = md5(content)
