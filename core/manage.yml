@@ -532,5 +532,15 @@
   url: web/push/getPushById
 - name: 推送消息
   url: web/push/pushMessage
-- name: 云课PC版本更新接口
-  url: webhttp://www.mizholdings.com/yunkepc/Version.json
+- name: 开课记录
+  url: web/classroom/getOnlineRecord
+- name: 直播记录r
+  url: web/qiniu/getHistoryRecords
+- name: 直播记录i
+  url: web/qiniu/getHistoryInfo
+- name: 导出课堂作业
+  url: web/answer/exportByOrgId
+- name: 管理员重置密码
+  url: web/usr/changePassword
+- name: 用户充值
+  url: web/usr/changeMoneys

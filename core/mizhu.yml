@@ -996,11 +996,7 @@
   url: web/classroom/delete
 - name: 导出学生
   url: api/classChart/exportByStudent
+- name: 删除课程学生2
+  url: web/refund/teacherDelStu2
 - name: 微课设置班级
   url: web/lesson/editTeacherStudent
-- name: 开课记录
-  url: web/classroom/getOnlineRecord
-- name: 直播记录r
-  url: web/qiniu/getHistoryRecords
-- name: 直播记录i
-  url: web/qiniu/getHistoryInfo

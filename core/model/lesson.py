@@ -60,7 +60,7 @@ class Lesson(DataAgent):
 
         res = Mizhu.web_lesson_add().post(data)
         json_ = res.json()
-        assert json_["code"] == "200"
+        assertPass(json_)
 
         return Lesson(json_["data"]["lessonId"], usr=usr)
 

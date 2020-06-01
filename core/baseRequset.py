@@ -1,5 +1,8 @@
 import requests
 import json as json_package
+from .secretUtil import get_sign
+from .common import *
+from .util import *
 
 URL_LOG = """
 url: {} 
@@ -37,7 +40,13 @@ def print_response(res):
 
 
 def print_log(log, *args):
-    print(log.format(*args))
+    args_ = []
+    for l in args:
+        if isinstance(l, dict):
+            args_.append(json_package.dumps(l, indent=4, ensure_ascii=False))
+        else:
+            args_.append(l)
+    print(log.format(*args_))
 
 
 class BaseRequest():
@@ -55,12 +64,13 @@ class BaseRequest():
         return self
 
     def _secure(self, data, kwargs):
-        if self.api.startswith("api"):
-            print(kwargs)
-            content = ""
-            for key, value in data.items():
-                content += key
-                content += value
+        value = get_sign(data)
+        if "headers" not in kwargs:
+            kwargs["headers"] = {}
+
+        kwargs["headers"].update({
+            "mizhu": value
+        })
 
     def post(self, data=None, json=None, **kwargs):
         print_log(POST_LOG,
@@ -68,11 +78,13 @@ class BaseRequest():
                   self.name or "未定义",
                   data or "无",
                   json or "无")
+
+        self._secure(data, kwargs)
         has_headers_print(kwargs)
-        # self._secure(data, kwargs)
 
         res = requests.post(url=self.url, data=data, json=json, **kwargs)
         print_response(res)
+
         return res
 
     def get(self, params=None, **kwargs):
@@ -80,7 +92,10 @@ class BaseRequest():
                   self.url or "",
                   self.name or "未定义",
                   params or "无")
+
+        self._secure(params, kwargs)
         has_headers_print(kwargs)
+
         res = requests.get(self.url, params=params, **kwargs)
         print_response(res)
 

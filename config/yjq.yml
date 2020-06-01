@@ -30,7 +30,11 @@ t: #测试服务器
       - name: password
         value: 111111
     list:
-      - account: robot0001
+      - account: robot0101
+        password: 111111
+      - account: robot0102
+        password: 111111
+      - account: robot0103
         password: 111111
   phone: #手机号
     list:

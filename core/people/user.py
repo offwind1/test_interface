@@ -15,6 +15,11 @@ class User:
     def key(self):
         return self.__class__.__name__
 
+    def add(self, class_):
+        if hasattr(class_, "add"):
+            return class_.add(self)
+        raise NotImplementedError
+
     @classmethod
     def of(cls, config_name):
         config = ConfigReader.m2(config_name)

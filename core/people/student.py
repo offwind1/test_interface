@@ -32,7 +32,7 @@ class Student(User):
 
     def new(self, account=None, password=None):
         if account is None:
-            account = "".join(random.sample("123456789", 6))
+            account = "test"+"".join(random.sample("123456789", 6))
         if password is None:
             password = "111111"
         data = {
