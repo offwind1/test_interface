@@ -31,7 +31,8 @@ def rc4(data, key):
 def get_sign_conntent(data):
     content = ""
     for key in sorted(data.keys()):
-        content += key + str(data.get(key))
+        if data.get(key, False):
+            content += key + str(data.get(key))
     return content
 
 
