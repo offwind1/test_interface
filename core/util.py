@@ -2,7 +2,7 @@ import random
 import json
 from datetime import datetime, timedelta
 
-CODE = "200"
+CODE = ["0", "200"]
 RESULT = "0"
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 YMD_DATE_FORMAT = "%Y-%m-%d"
@@ -63,9 +63,14 @@ def assertJsonPass(json):
     if "result" in json:
         assertValueEqule(json["result"], RESULT)
     elif "code" in json:
-        assertValueEqule(json["code"], CODE)
+        # assertValueEqule(json["code"], CODE)
+        assertValueIn(json["code"], CODE)
     else:
         raise Exception("返回结果中，没有code 也没有 result")
+
+
+def assertValueIn(a, b):
+    assert str(a) in b
 
 
 def assertValueEqule(a, b):

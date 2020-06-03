@@ -31,10 +31,10 @@ def rc4(data, key):
 def get_sign_conntent(data):
     content = ""
     for key in sorted(data.keys()):
-        if data.get(key, False):
-            content += key + str(data.get(key))
+        value = str(data.get(key, ""))
+        if value and not value.isspace():
+            content += key + value
     return content
-
 
 
 def get_sign(data):
