@@ -259,7 +259,6 @@ class _TestCase(unittest.TestCase, metaclass=Meta):
 
 TestCaseBackup = unittest.TestCase
 
-
 unittest.TestCase = _TestCase
 TestCase = _TestCase
 
@@ -276,5 +275,3 @@ def run_case(case_class, case_name: str):
         if r.match(getattr(i, "_testMethodName")):
             suite.addTest(i)
     unittest.TextTestRunner(verbosity=0).run(suite)
-
-

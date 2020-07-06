@@ -5,13 +5,11 @@ t: #测试服务器
     list: #用于随机
       - account: 18767126032
         password: 111111
-      - account: robot0001
-        password: 111111
   jigou: #机构
     account: tester
     password: 111111
     list:
-      - account: tester
+      - account: tester002
         password: 111111
   admin: #管理员
     account: houhonglin

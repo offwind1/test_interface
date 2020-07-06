@@ -3,7 +3,7 @@ from core import *
 
 class AnswerFlow(TestCase):
     jigou = Jigou.of("yjq").default()
-    lesson = Lesson.add(jigou)
+    lesson = Lesson.creat(jigou)
     answerCardId = None
     cla = Clazz.findClass(jigou, "答题卡专用")
     lesson.add_class(cla.classId)

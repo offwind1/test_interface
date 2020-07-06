@@ -133,7 +133,7 @@ class TestUsrCase(TestCase):
         """orgDelTeacher"""
         if func is not None:
             res = func.post(func_req)
-            assert res.json()["code"] == "200"
+            assertPass(res)
 
         res = Mizhu.web_usr_orgDelTeacher().post(req)
         assert res.json()["code"] == data["code"]
@@ -160,53 +160,6 @@ class TestUsrCase(TestCase):
         "billPhone": "",
         "address": "",
     }
-
-    edit_student = Student.of("yjq").default()
-
-    @ddt.unpack
-    @ddt.data([
-        update(copy.deepcopy(edit_req), {
-        }), {
-            "code": "300",
-            "msg": "token无效，或参数有误!"
-        }], [
-        update(copy.deepcopy(edit_req), {
-            "token": edit_student.token,
-            "userIdentity": 0,
-            "userType": 3,
-            "userId": edit_student.userId,
-            "password": "111111",
-            "nickname": edit_student.nickname,
-            "sex": "M",
-            "age": "20",
-            "qq": "20",
-            "context": "20",
-            "department": "部门",
-            "className": "班级",
-            "gradeName": "年级",
-            "mySign": "mySign",
-            "status": 1,
-            "address": "",
-            "linkName": "",
-            "billPhone": "",
-            "orgId": "0"
-        }), {
-            "code": "200",
-            "msg": ""
-        }])
-    def test_editUser(self, req, data):
-        """editUser"""
-        res = Mizhu.web_usr_editUser().post(req)
-        json = res.json()
-        assert json["code"] == data["code"]
-        assert json["msg"] == data["msg"]
-
-        if json["code"] == "200":
-            student = Student.of("yjq").default(refresh=True)
-            for key, value in req.items():
-                if key == "token" or key == "password":
-                    continue
-                assert str(student.data["data"][key]) == str(value), key
 
     merge_info = config.merge
     merge_student = Student.of("yjq").merge()
@@ -266,7 +219,7 @@ class TestUsrCase(TestCase):
         assert json["code"] == data["code"]
         assert json["msg"] == data["msg"]
 
-    student = Student.of("yjq").default()
+    student = Student.of("yjq").random()
 
     @ddt.unpack
     @ddt.data([{
@@ -286,7 +239,7 @@ class TestUsrCase(TestCase):
         "password": "111"
     }, {
         "code": "300",
-        "msg": ""
+        "msg": "密码输入错误"
     }])
     def test_check_password(self, req, data):
         res = Mizhu.web_usr_checkPassword().post(req)

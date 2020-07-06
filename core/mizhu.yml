@@ -301,7 +301,7 @@
 - name: 用户同意加入机构
   url: api/org/joinOrg
 - name: 添加机构
-  url: api/org/create
+  url: api/org/adde
 - name: 已经加入的机构列表
   url: api/org/joinList
 - name: 退出机构
@@ -792,6 +792,8 @@
   url: web/lesson/list
 - name: 课程新增
   url: web/lesson/add
+- name: 课时新增
+  url: web/classroom/add
 - name: 根据ID获得课程信息
   url: web/lesson/getLessonInfoById
 - name: 根据课程ID拿到评论（一级）
@@ -1000,3 +1002,15 @@
   url: web/refund/teacherDelStu2
 - name: 微课设置班级
   url: web/lesson/editTeacherStudent
+- name: 校验文件md5
+  url: web/course/fileExits
+- name: 删除课程库课程
+  url: web/lesson/stockDel
+- name: 上传课堂录制视频
+  url: api/classInfo/uploadVedio
+- name: 移交机构管理
+  url: web/lesson/turnOverLesson
+- name: 获取教师的机构id
+  url: web/usr/getOrgByTeacherId
+
+

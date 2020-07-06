@@ -1,16 +1,17 @@
 from .baseAgent import DataAgent
 from core.util import *
 from core import *
+import re
 
 
 class Lesson(DataAgent):
 
     @staticmethod
-    def add(usr: Teacher, lessonName="新建课程" + random_str(), gradeIds="1", lessonTypeId=1, startTime=None,
-            tryLook=0, apply=0, lessonTerm=1, faceImg="https://imagess.mizholdings.com/ad/ad2.png",
-            classroomCount=1, classTime=60, classroomPrice=0, free=1, lessRemark="<p>8橙云课，提高学习效率8成！现在就加入此课程吧！</p>",
-            lessonTag="", studentCount=200, price=1, buyType=0, custRelease=1
-            ):
+    def creat(usr: Teacher, lessonName="新建课程" + random_str(), gradeIds="1", lessonTypeId=1, startTime=None,
+              tryLook=0, apply=0, lessonTerm=1, faceImg="https://imagess.mizholdings.com/ad/ad2.png",
+              classroomCount=1, classTime=60, classroomPrice=0, free=1, lessRemark="<p>8橙云课，提高学习效率8成！现在就加入此课程吧！</p>",
+              lessonTag="", studentCount=200, price=1, buyType=0, custRelease=1
+              ):
         if startTime is None:
             startTime = getNow()
         else:
@@ -183,6 +184,14 @@ class Lesson(DataAgent):
     def custRelease(self):
         return self.data.get("lessonInfo").get("custRelease", "")
 
+    @property
+    def free(self):
+        return self.data.get("lessonInfo").get("free", "")
+
+    @property
+    def pubType(self):
+        return self.data.get("lessonInfo").get("pubType", "")
+
     def applyed(self):
         """
         提交审核
@@ -221,6 +230,43 @@ class Lesson(DataAgent):
             "stuId": cls
         })
         assertPass(res)
+
+    def add_classroom(self, classroomName=None, startTime=None, teacherId=None, classroomRemark=""):
+        classroom = self[-1]
+        size = len(self)
+        if classroomName is None:
+            name = classroom.classroomName
+            num = re.findall("课时(\d+)", name)
+            if num and num[0].isdigit():
+                classroomName = "课时{}".format(int(num[0]) + 1)
+            else:
+                classroomName = "课时x"
+
+        if startTime is None:
+            time = classroom.startTime
+            data_time = str_to_date(time)
+            startTime = getTime(data_time, 1)
+            startTime = startTime.strftime(DATE_FORMAT),
+
+        if teacherId is None:
+            teacherId = classroom.teacherId
+
+        timeLong = "60"
+
+        json = Mizhu.web_classroom_add().post({
+            "token": self.usr.token,
+            "classroomName": classroomName,
+            "lessonId": self.lessonId,
+            "interaction": "4",
+            "startTime": startTime,
+            "timeLong": timeLong,
+            "classroomOrdery": size + 1,
+            "classroomRemark": classroomRemark,
+            "teacherId": teacherId,
+            "pubType": "9"
+        }).json()
+        assertPass(json)
+        self.update()
 
     def edit(self, lessonName=None, gradeIds=None, lessonTypeId=None, startTime=None,
              tryLook=None, apply=None, lessonTerm=None, faceImg=None,
@@ -354,6 +400,10 @@ class Lesson(DataAgent):
             return self.data.get("startTime", "")
 
         @property
+        def timeLong(self):
+            return self.data.get("timeLong", "")
+
+        @property
         def classroomName(self):
             return self.data.get("classroomName", "")
 
@@ -432,3 +482,12 @@ class Lesson(DataAgent):
             for classroom in Lesson(self.lessonId, self.usr):
                 if self.classroomId == classroom.classroomId:
                     return classroom.data
+
+        def delete(self):
+            res = Mizhu.web_classroom_delete().post({
+                "token": self.usr.token,
+                "classroomIds": self.classroomId,
+                "lessonId": self.lessonId
+            })
+            assertPass(res)
+            self.update()

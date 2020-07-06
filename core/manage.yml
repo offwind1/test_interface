@@ -1,5 +1,5 @@
 - name: 商品加入购物车
-  url: web/shopping/add
+  url: web/shopping/creat
 - name: 查询购物车列表
   url: web/shopping/list
 - name: 删除商品
@@ -9,7 +9,7 @@
 - name: 查询收费列表
   url: web/item/list
 - name: 添加收款项目
-  url: web/item/add
+  url: web/item/creat
 - name: 修改收款项目
   url: web/item/update
 - name: 查询收款项目信息
@@ -45,7 +45,7 @@
 - name: 渠道广告列表
   url: web/chanAdv/list
 - name: 添加新广告
-  url: web/chanAdv/add
+  url: web/chanAdv/creat
 - name: 广告编辑
   url: web/chanAdv/edit
 - name: 广告删除
@@ -53,7 +53,7 @@
 - name: 渠道群管理
   url: web/chanGroup/list
 - name: 渠道群添加
-  url: web/chanGroup/add
+  url: web/chanGroup/creat
 - name: 渠道群编辑
   url: web/chanGroup/edit
 - name: 渠道群删除
@@ -61,7 +61,7 @@
 - name: 渠道信息列表
   url: web/chan/list
 - name: 渠道信息新增
-  url: web/chan/add
+  url: web/chan/creat
 - name: 渠道信息编辑
   url: web/chan/edit
 - name: 渠道信息删除
@@ -137,7 +137,7 @@
 - name: 广告列表
   url: web/advert/list
 - name: 添加广告
-  url: web/advert/add
+  url: web/advert/creat
 - name: 根据ID拿到广告详情
   url: web/advert/getAdvertById
 - name: 广告编辑
@@ -293,7 +293,7 @@
 - name: 根据课程ID，查询课节信息
   url: web/classroom/listByLessonId
 - name: 新增课节
-  url: web/classroom/add
+  url: web/classroom/creat
 - name: 根据课节ID，获得课节信息
   url: web/classroom/getClassroomById
 - name: 编辑课节
@@ -333,7 +333,7 @@
 - name: 课程分页列表
   url: web/lesson/list
 - name: 课程新增
-  url: web/lesson/add
+  url: web/lesson/creat
 - name: 根据ID获得课程信息
   url: web/lesson/getLessonInfoById
 - name: 根据课程ID拿到评论（一级）
@@ -499,7 +499,7 @@
 - name: 查询积分规则列表
   url: web/integ/integList
 - name: 新增积分规则
-  url: web/integ/add
+  url: web/integ/creat
 - name: 根据积分规则id查询积分规则信息
   url: web/integ/getIntegById
 - name: 修改积分规则
@@ -544,3 +544,7 @@
   url: web/usr/changePassword
 - name: 用户充值
   url: web/usr/changeMoneys
+- name: 导入课程通过模板
+  url: web/lesson/lessonUpfile
+- name: 添加课程文件
+  url: web/lesson/addByfile

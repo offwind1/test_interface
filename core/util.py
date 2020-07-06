@@ -42,12 +42,44 @@ def str_to_date(str):
     return str_to_time(str, DATE_FORMAT)
 
 
+def date_to_str(data):
+    return data.strftime(DATE_FORMAT)
+
+
 def random_str(l=6):
     return "".join(random.sample("abcdefghijklmnopqrstuvwxyz", l))
 
 
 def obj_2_json_str(obj):
     return json.dumps(obj)
+
+
+def get_list_item(list, key, value):
+    v = []
+    for x in list:
+        if x[key] == value:
+            v.append(x)
+    return v
+
+
+def assert_list_has(list, key, value):
+    if len(get_list_item(list, key, value)) > 0:
+        return
+    raise Exception("未找到")
+
+
+def assert_list_no_has(list, key, value):
+    if len(get_list_item(list, key, value)) == 0:
+        return
+
+    raise Exception("存在")
+
+
+def assert_list_has_one(list, key, value):
+    le = len(get_list_item(list, key, value))
+    if le == 1:
+        return
+    raise Exception("has {}".format(le))
 
 
 def assertPass(obj):

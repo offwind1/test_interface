@@ -7,8 +7,8 @@ from core import TeacherExecl, Kaca
 #创建教师excel模板
 teacher_execl = TeacherExecl()
 # 单行添加：     "班级名称", "年级", "教师姓名", "任教学科", "教师手机号"
-teacher_execl.add("2年1班", "七年级", "王老师", "数学", "17727272727")
-teacher_execl.add("2年1班", "七年级", "赵老师", "语文", "17711111111")
+teacher_execl.creat("2年1班", "七年级", "王老师", "数学", "17727272727")
+teacher_execl.creat("2年1班", "七年级", "赵老师", "语文", "17711111111")
 # 保存文件到本地
 teacher_execl.save("教师模板.xls")
 
@@ -63,12 +63,12 @@ from core import *
 # 创建学生excel
 student_execl = StudentExecl()
 # 单行添加学生: "姓名", "账号", "密码", "手机号", "学校", "年级", "班级", "级数"
-student_execl.add("学生001", "student001", "111111", "19200000000")
-student_execl.add("学生002", "student002", "111111") # 省略的部分默认为空
+student_execl.creat("学生001", "student001", "111111", "19200000000")
+student_execl.creat("学生002", "student002", "111111") # 省略的部分默认为空
 
 #批量导入学生
 jigou = Jigou.of("yjq").default() # 机构用户登录
-cla = Clazz.add(Jigou) # 新建班级
+cla = Clazz.creat(Jigou) # 新建班级
 
 res = Mizhu.web_lesson_uploadFile().post({ #上传学生模板
     "token": jigou.token
@@ -127,7 +127,7 @@ from core import *
 # 创建excel对象
 lesson_execl = LessonHasClassExecl()
 # 单行添加数据 "课程名称", "课节名称", "开始日期", "开始时间", "结束时间", "学科", "老师", "手机", "年级", "班级"
-lesson_execl.add('批量新增1-1','课时1','2020-02-01','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
+lesson_execl.creat('批量新增1-1','课时1','2020-02-01','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
 # 快捷添加数据
 # 参数为 手机号 和 课时数量
 # 会自动生成课程名称，和课节名称。 开始时间为当前时间，结束时间为1小时后，学科默认 数学， 老师名称为默认（注册过的教师这一项不生效） 
@@ -154,7 +154,7 @@ from core import *
 # 创建excel对象
 lesson_execl = LessonNoClassExecl()
 # 单行添加数据 '课程名称', '开始日期', '结束日期', '开始时间', '结束时间', '学科', '老师', '手机', '年级', '班级'
-lesson_execl.add('批量新增1','2020-02-01','2020-02-10','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
+lesson_execl.creat('批量新增1','2020-02-01','2020-02-10','12:00','13:00','数学','林伟坚','13000000004','高三','三5班')
 # 快捷添加数据
 # 参数为 手机号 和 课时数量
 # 会自动生成课程名称，和课节名称。 开始时间为当前时间，结束时间为1小时后，学科默认 数学， 老师名称为默认（注册过的教师这一项不生效） 
@@ -181,7 +181,7 @@ jigou = Jigou.of("yjq").default()
 # 随机获取一个资源信息
 cours = Courseware.random()
 # 创建课程
-lesson = Lesson.add(jigou)
+lesson = Lesson.creat(jigou)
 # 上传课件
 res = Mizhu.api_course_uploadFile2().post({
     "sourceUrl": cours.source_url,
@@ -233,8 +233,8 @@ jigou = Jigou.of("yjq").default()
 teacher = Teacher.of("yjq").default()
 # 新建课程
 # 课程名称默认，课程时间当天，默认一节课
-lesson = Lesson.add(jigou)
-lesson = Lesson.add(jigou, lessonName="课程名称", 
+lesson = Lesson.creat(jigou)
+lesson = Lesson.creat(jigou, lessonName="课程名称", 
                             classroomCount=4,
                             startTime="2020-05-27 12:00:00",
                             lessonTerm=1,
@@ -287,9 +287,9 @@ teacher = Teacher.of("yjq").default()
 
 # 新建班级
 # 班级名称随机, 默认年级1年级
-cls = Clazz.add(jigou)
+cls = Clazz.creat(jigou)
 # 新建班级，并且指定数据
-cls = Clazz.add(jigou, gradeId="7", className="班级名称")
+cls = Clazz.creat(jigou, gradeId="7", className="班级名称")
 
 # 通过班级名称，查找班级
 cls = Clazz.findClass(jigou, "机器人专用")

@@ -22,7 +22,7 @@ class AddClassFlow(TestCase):
         }
         res = Mizhu.web_grade_userByStuId().post(data)
         json = res.json()
-        assert json["code"] == "200"
+        assertPass(json)
 
         for line in json["data"]["list"]:
             assert "新生娃" in line["userName"]
@@ -46,7 +46,7 @@ class AddClassFlow(TestCase):
     def uploadFile(self, execl, cla):
         res = Mizhu.web_lesson_uploadFile().post({"token": self.jigou.token}, files={"upfile": execl.byte()})
         json = res.json()
-        assert json["code"] == 200
+        assertPass(json)
         fileName = json["data"]["fileName"]
 
         data = {
@@ -57,11 +57,11 @@ class AddClassFlow(TestCase):
 
         res = Mizhu.web_lesson_joinClassByFile().post(data)
         json = res.json()
-        assert json["code"] == "200"
+        assertPass(json)
 
     def del_class(self, cla):
         data = {
             "stuId": cla.classId,
             "token": self.jigou.token}
         res = Mizhu.web_grade_delClass().post(data)
-        assert res.json()["code"] == "200"
+        assertPass(res)

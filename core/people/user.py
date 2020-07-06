@@ -16,8 +16,8 @@ class User:
         return self.__class__.__name__
 
     def add(self, class_):
-        if hasattr(class_, "add"):
-            return class_.add(self)
+        if hasattr(class_, "creat"):
+            return class_.creat(self)
         raise NotImplementedError
 
     @classmethod
