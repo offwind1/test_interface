@@ -258,7 +258,6 @@ class _TestCase(unittest.TestCase, metaclass=Meta):
 
 
 TestCaseBackup = unittest.TestCase
-
 unittest.TestCase = _TestCase
 TestCase = _TestCase
 

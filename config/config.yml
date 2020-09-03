@@ -1,14 +1,14 @@
 #系统的基础路径
-server: t
-mizhu:
-  url: https://api.mizholdings.com/
-  use_server: 1
+server: t #服务器正式测试切换 t测试 p正式
+mizhu: #
+  url: https://api.mizholdings.com/  #服务器域名
+  use_server: 1 # 是否使正式测试切换  1 使用 0 不使用
 mizhumanage:
   url: https://api.huijudi.cn/
   use_server: 1
 kaca:
   url: https://develop.kacha.xin/
-  use_server: 0
+  use_server: 0 # 不使用正式测试切换时， 切换正式和测试服务器需要修改域名
 
 #mizhu:
 #  url: http://192.168.3.151:8081/

@@ -1,7 +1,8 @@
 from core import Jigou, Teacher, Mizhu, Manage, Admin
-from core.util import *
+from core.util.util import *
 from .baseAgent import DataAgent
 from ..execlUtil import *
+from ..util import *
 
 
 class Clazz(DataAgent):
@@ -33,7 +34,7 @@ class Clazz(DataAgent):
         assertPass(json)
 
         for line in json["data"]["list"]:
-            if className == line["className"]:
+            if className in line["className"]:
                 return Clazz(line["stuId"], usr, data=line)
 
     def __init__(self, classId, usr, data=None):

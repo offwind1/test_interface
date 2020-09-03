@@ -8,6 +8,13 @@ class AddStudentTest(TestCase):
         cls.student = Student.of("yjq").default()
         cls.jigou = Jigou.of("yjq").default()
 
+
+    def test_1(self):
+        """测试"""
+        print("测试输出")
+
+
+
     def test_del_student(self):
         """删除学生"""
         data = {

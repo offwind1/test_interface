@@ -63,7 +63,7 @@ class TestNewLesson(TestCase):
             "hotTop": "1",
         }).json()
         assertPass(json)
-        # assert_list_no_has(json["data"], "lessonId", lesson.lessonId)
+        assert_list_no_has(json["data"], "lessonId", lesson.lessonId)
 
         # 显示在 管理员的课程库中
         json = Manage.web_lesson_stockList().post({

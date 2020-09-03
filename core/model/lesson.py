@@ -7,11 +7,32 @@ import re
 class Lesson(DataAgent):
 
     @staticmethod
-    def creat(usr: Teacher, lessonName="新建课程" + random_str(), gradeIds="1", lessonTypeId=1, startTime=None,
+    def getOne(usr: Jigou):
+        json = Mizhu.web_lesson_list().post({
+            "token": usr.token,
+            "lessonName": "",
+            "lessonTypeId": 0,
+            "pubType": "",
+            "recommend": "",
+            "currentPage": 1,
+            "pageSize": 10,
+            "lessonTerm": 0,
+            "org": 0,
+            "orgId": usr.orgId,
+            "stockType": 0,
+        }).json()
+
+        lessonId = json["data"]["list"][0]["lessonId"]
+        return Lesson(lessonId, usr)
+
+    @staticmethod
+    def creat(usr: Teacher, lessonName=None, gradeIds="1", lessonTypeId=1, startTime=None,
               tryLook=0, apply=0, lessonTerm=1, faceImg="https://imagess.mizholdings.com/ad/ad2.png",
               classroomCount=1, classTime=60, classroomPrice=0, free=1, lessRemark="<p>8橙云课，提高学习效率8成！现在就加入此课程吧！</p>",
               lessonTag="", studentCount=200, price=1, buyType=0, custRelease=1
               ):
+        if lessonName is None:
+            lessonName = "新建课程" + random_str()
         if startTime is None:
             startTime = getNow()
         else:
@@ -107,6 +128,10 @@ class Lesson(DataAgent):
 
     def __len__(self):
         return len(self.data["classroomList"])
+
+    @property
+    def realPrice(self):
+        return int(self.data.get("lessonInfo").get("realPrice", ""))
 
     @property
     def startTime(self):

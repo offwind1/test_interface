@@ -441,7 +441,7 @@ registered_phone = config.phone.registered # 16600010000
 
 ### 新增 用例按指定顺序执行
 
-现在使用核心包`core`的`TestCase`执行测试，测试用例的执行顺序，安装代码的书写顺序来执行
+现在使用核心包`core`的`TestCase`执行测试，测试用例的执行顺序，按照代码的书写顺序来执行
 ```python
 from core import TestCase
 

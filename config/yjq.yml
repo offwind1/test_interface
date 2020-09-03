@@ -4,7 +4,7 @@ t: #测试服务器
     password: 111111
     list: #用于随机
       - account: 18767126032
-        password: 111111
+        password: 888888
   jigou: #机构
     account: tester
     password: 111111
@@ -49,15 +49,14 @@ t: #测试服务器
         value: 17%09d
         start: 0
         end: 9
-  phonee_account:
+  phone_account:
     account: 1349348420
     password: 8cheng
   email:
     account: 186201712028@hxlsjzfx
     password: 8cheng
-  lisi:
-    phone: 13457691177
   merge:
+    userId: 4950653080243200
     phone: 16612312100
     password: 111111
     nickname: 合并专用
@@ -94,7 +93,8 @@ t: #测试服务器
     - 姓名: "学生003"
       账号: "baby003"
       密码: "111111"
-
+  new:
+    phone: 17043763135
 
 p:
   teacher:
@@ -103,16 +103,14 @@ p:
     list: #用于随机抽取
       - account: 18767126032
         password: 111111
-      - account: vta001
-        password: 111111
   jigou:
     account: tester
     password: 111111
     list:
-      - account: tester
-        password: 111111
+      - account: jigou1001zs
+        password: jigou1001zs
   admin:
-    account: yangjiaqi
+    account: houhonglin
     password: cheng8111
     list:
       - account: yangjiaqi

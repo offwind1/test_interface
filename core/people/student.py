@@ -1,4 +1,6 @@
 from .user import *
+import random
+from ..util import *
 
 
 class Student(User):

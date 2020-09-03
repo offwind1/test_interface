@@ -1,4 +1,5 @@
 from .user import *
+from ..util import *
 
 
 class Teacher(User):
@@ -19,7 +20,7 @@ class Teacher(User):
 
     def _get_teacher_info(self):
         json = Mizhu.api_mobile_userInfo().post({
-            "token":self.token
+            "token": self.token
         }).json()
         assertPass(json)
 

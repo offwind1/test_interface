@@ -3,12 +3,16 @@ import sys
 import os
 import xml.etree.cElementTree as ET
 
-PACKAGE_PATH = os.path.join(__file__, os.path.pardir)
-MAIN_PATH = os.path.join(PACKAGE_PATH, os.path.pardir)
+PACKAGE_PATH = os.path.join(os.path.join(__file__, os.path.pardir), os.path.pardir)
 
+MAIN_PATH = os.path.join(PACKAGE_PATH, os.path.pardir)
 CONFIG_PATH = os.path.join(MAIN_PATH, "config")
+
+
 RESOURCES_PATH = os.path.join(MAIN_PATH, "resources")
 CONFIG_FILE_PATH = os.path.join(CONFIG_PATH, "config.yml")
+
+
 
 
 def read_yaml_file(file_path):
@@ -46,15 +50,18 @@ def add_element_method(Kclass, filename):
 
     def request_object(api, name=None):
         def _object():
+            # 生成接口对象
             obj = Kclass(api=api, name=name)
-            # obj.api = api
             return obj
 
         return _object
 
+    # 读取接口
     for dict in read_yaml_file(filename):
-        line = dict["url"]
-        name = dict["name"]
+        line = dict["url"] #接口路由
+        name = dict["name"] #接口名称
+        # 给服务器对象添加方法
+        # 方法名称为 路由地址将 / 替换为 _
         setattr(Kclass, line.replace("/", "_"), request_object(line, name))
 
 

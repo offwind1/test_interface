@@ -1,8 +1,6 @@
 import requests
 import json as json_package
-from .secretUtil import get_sign
-from .common import *
-from .util import *
+from core.util.secretUtil import get_sign
 
 URL_LOG = """
 url: {} 
@@ -49,12 +47,13 @@ def print_log(log, *args):
     print(log.format(*args_))
 
 
+# 基础请求类
 class BaseRequest():
 
     def __init__(self, base_url=None, api=None, name=None):
-        self.api = api
-        self.base_url = base_url
-        self.name = name
+        self.api = api # 接口 url
+        self.base_url = base_url # 服务器域名
+        self.name = name # 接口名称
 
     def __getattr__(self, item):
         self.api = item
@@ -64,48 +63,62 @@ class BaseRequest():
         return self
 
     def _secure(self, data, kwargs):
+        """
+            若接口 url以 api开头 需要进行加密
+        """
+
         if not self.api.startswith("api"):
             return
 
+        # 获取加密后的秘钥
         value = get_sign(data)
         if "headers" not in kwargs:
             kwargs["headers"] = {}
 
+        # 添加到headers中
         kwargs["headers"].update({
             "mizhu": value
         })
 
     def post(self, data=None, json=None, **kwargs):
+        # 打印接口详情
         print_log(POST_LOG,
                   self.url or "",
                   self.name or "未定义",
                   data or "无",
                   json or "无")
 
+        # 加密
         self._secure(data, kwargs)
+        # 打印headers
         has_headers_print(kwargs)
-
+        # 调用接口
         res = requests.post(url=self.url, data=data, json=json, **kwargs)
+        # 打印response
         print_response(res)
-
         return res
 
     def get(self, params=None, **kwargs):
+        # 打印接口详情
         print_log(GET_LOG,
                   self.url or "",
                   self.name or "未定义",
                   params or "无")
 
+        # 加密
         self._secure(params, kwargs)
+        # 打印headers
         has_headers_print(kwargs)
-
+        # 调用接口
         res = requests.get(self.url, params=params, **kwargs)
+        # 打印response
         print_response(res)
 
         return res
 
     @property
     def url(self):
+        # 域名 和 路由 拼成完整的接口地址
         return self.base_url + self.api
 
     def __str__(self):

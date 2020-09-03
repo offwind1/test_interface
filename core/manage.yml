@@ -548,3 +548,7 @@
   url: web/lesson/lessonUpfile
 - name: 添加课程文件
   url: web/lesson/addByfile
+- name: 一键审核通过
+  url: web/usr/managerReplyUser
+- name: 删除手机号
+  url: web/usr/removeUserPhone

@@ -1,5 +1,5 @@
 from .user import *
-
+from ..util import *
 
 class Admin(User):
     def dynamic_login(self, account, password):

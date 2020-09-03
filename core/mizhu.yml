@@ -1012,5 +1012,7 @@
   url: web/lesson/turnOverLesson
 - name: 获取教师的机构id
   url: web/usr/getOrgByTeacherId
+- name: 获取验证码测试
+  url: api/mobile/phoneCodeTest
 
 

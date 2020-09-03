@@ -1,5 +1,5 @@
 from .M2 import Mizhu, Manage, Kaca
-from .common import add_element_method, read_config
+from core.util.common import add_element_method, read_config
 from .configReader import ConfigReader
 from .config import SERVER
 from .people import *

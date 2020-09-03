@@ -1,5 +1,3 @@
-from ..configReader import ConfigReader
-from ..util import *
 from ..M2 import *
 
 
@@ -13,15 +11,28 @@ class User:
             self._user_cache[cache_key] = {}
 
     def key(self):
+        # 返回类名称
         return self.__class__.__name__
 
     def add(self, class_):
+        """
+        用户添加课程、班级等
+        调用class_的create函数
+
+        user.add(Lesson) # 新增课程
+        user.add(Clazz) # 新增班级
+
+        :param class_:
+        :return:
+        """
         if hasattr(class_, "creat"):
             return class_.creat(self)
         raise NotImplementedError
 
     @classmethod
     def of(cls, config_name):
+        # 建造者
+        # config_name： 账号配置文件名
         config = ConfigReader.m2(config_name)
         return cls(config, config_name.split(".")[0])
 
